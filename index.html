@@ -81,6 +81,7 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             border-radius: 3.5rem;
             display: flex;
             flex-direction: column;
@@ -102,17 +103,24 @@
             font-size: 0.9rem;
             margin-bottom: 12px;
             color: #cbd5e1;
+            text-align: left;
         }
         
         .list-item span { color: var(--gold-brand); font-weight: bold; }
 
-        select option { background-color: #1a1a1a; color: white; }
-
+        /* FIXED MOBILE MENU STYLING */
         #mobile-menu {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateX(100%);
+            background-color: rgba(5, 5, 5, 0.98); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px);
         }
-        #mobile-menu.open { transform: translateX(0); }
+        #mobile-menu.open { 
+            transform: translateX(0); 
+        }
+
+        select option { background-color: #1a1a1a; color: white; }
 
         .nav-link { position: relative; opacity: 0.7; transition: opacity 0.3s ease; }
         .nav-link.active { opacity: 1; color: var(--gold-brand); }
@@ -143,12 +151,22 @@
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 z- bg-black/95 text-white p-12 flex flex-col gap-10 text-3xl font-extrabold md:hidden">
-        <button onclick="toggleMobileMenu()" class="self-end text-5xl text-gold">&times;</button>
-        <button onclick="showPage('home'); toggleMobileMenu()">Home</button>
-        <button onclick="showPage('services'); toggleMobileMenu()">Services</button>
-        <button onclick="showPage('about'); toggleMobileMenu()">Our Family</button>
-        <button onclick="showPage('contact'); toggleMobileMenu()" class="text-gold border-t border-white/10 pt-10 text-2xl">Request Quote</button>
+    <div id="mobile-menu" class="fixed inset-0 z- text-white p-12 flex flex-col justify-center gap-10 text-4xl font-extrabold md:hidden">
+        <button onclick="toggleMobileMenu()" class="absolute top-8 right-8 text-6xl text-gold font-light">&times;</button>
+        
+        <button onclick="showPage('home'); toggleMobileMenu()" class="text-left">Home</button>
+        <button onclick="showPage('services'); toggleMobileMenu()" class="text-left">Services</button>
+        <button onclick="showPage('about'); toggleMobileMenu()" class="text-left">Our Family</button>
+        
+        <div class="h-[1px] bg-white/10 w-full my-4"></div>
+        
+        <button onclick="showPage('contact'); toggleMobileMenu()" class="text-gold text-2xl uppercase tracking-[0.2em] text-left">
+            Request Quote —
+        </button>
+
+        <div class="absolute bottom-12 left-12 opacity-20">
+            <p class="serif italic text-xl">E&G Cleaning</p>
+        </div>
     </div>
 
     <div class="pt-36 pb-10 min-h-screen">
@@ -176,12 +194,13 @@
                 <h2 class="text-5xl font-bold serif italic mb-4">The E&G Standard</h2>
                 <p class="text-slate-500 uppercase tracking-[0.3em] text-xs font-bold mb-16">Hover or Tap cards for details</p>
                 <div class="grid md:grid-cols-3 gap-10">
+                    
                     <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
                         <div class="card-inner">
                             <div class="card-front glass-card">
                                 <div>
                                     <div class="w-14 h-14 bg-emerald-900/30 rounded-2xl flex items-center justify-center text-3xl mb-8 border border-emerald-500/20">🧼</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter">The Routine</h3>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-left">The Routine</h3>
                                     <p class="text-sm text-slate-400 leading-relaxed text-left">Weekly maintenance for the high-end lifestyle.</p>
                                 </div>
                                 <p class="text-4xl font-black text-gold text-left">$150<span class="text-xs opacity-40 font-normal ml-2 text-white">EST.</span></p>
@@ -198,6 +217,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
                         <div class="card-inner">
                             <div class="card-front bg-gradient-to-b from-emerald-900/40 to-black border-2 border-gold-brand">
@@ -221,6 +241,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
                         <div class="card-inner">
                             <div class="card-front glass-card">
@@ -238,11 +259,12 @@
                                     <div class="list-item"><span>✓</span> Closet & Drawer Detail</div>
                                     <div class="list-item"><span>✓</span> Heavy De-greasing</div>
                                     <div class="list-item"><span>✓</span> Garage Sweep & Clean</div>
-                                    <div class="list-item"><span>✓</span> Full Wall Spot-Clean</div>
+                                    <div class="list-item"><span>✓</span> Deposit-Back Guarantee</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </main>
@@ -264,20 +286,34 @@
             <div class="max-w-4xl mx-auto px-6">
                 <div class="glass-card rounded-[4rem] p-16 relative overflow-hidden">
                     <h2 class="text-4xl font-bold serif italic text-center mb-12">Start Your Transformation</h2>
-                    <form class="space-y-10">
+                    
+                    <form action="https://formspree.io/f/YOUR_FORMSPREE_ID_HERE" method="POST" class="space-y-10">
                         <div class="grid md:grid-cols-2 gap-10">
-                            <input type="text" placeholder="Your Name" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
-                            <input type="email" placeholder="Email Address" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
+                            <div>
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-gold ml-2">Full Name</label>
+                                <input type="text" name="name" required placeholder="Your Name" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-gold ml-2">Email Address</label>
+                                <input type="email" name="_replyto" required placeholder="Email Address" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
+                            </div>
                         </div>
+                        
                         <div class="space-y-4">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-gold">Select Your Service</label>
-                            <select class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white cursor-pointer">
+                            <select name="service" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white cursor-pointer">
                                 <option value="routine">The Routine Cleaning</option>
                                 <option value="restoration">The Restoration (Deep Clean)</option>
                                 <option value="move">Move In / Move Out</option>
                             </select>
                         </div>
-                        <button type="button" onclick="alert('Submission received!')" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-[0.3em] shadow-2xl">Send Request</button>
+
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-gold ml-2">Notes</label>
+                            <textarea name="message" placeholder="Tell us about your space..." rows="3" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-[0.3em] shadow-2xl">Send Request</button>
                     </form>
                 </div>
             </div>
