@@ -57,11 +57,56 @@
             border: 1px solid var(--border-color);
         }
 
-        /* FIXED SELECTOR STYLING */
-        select option {
-            background-color: #1a1a1a;
-            color: white;
+        /* --- 3D FLIP CARD LOGIC --- */
+        .card-container {
+            perspective: 1000px;
+            height: 480px;
         }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card-container:hover .card-inner, .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+        }
+
+        .card-back {
+            background: linear-gradient(145deg, #064e3b, #000);
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid var(--gold-brand);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+        
+        .list-item span { color: var(--gold-brand); font-weight: bold; }
+
+        select option { background-color: #1a1a1a; color: white; }
 
         #mobile-menu {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -70,7 +115,7 @@
         #mobile-menu.open { transform: translateX(0); }
 
         .nav-link { position: relative; opacity: 0.7; transition: opacity 0.3s ease; }
-        .nav-link:hover, .nav-link.active { opacity: 1; color: var(--gold-brand); }
+        .nav-link.active { opacity: 1; color: var(--gold-brand); }
     </style>
 </head>
 <body>
@@ -78,7 +123,7 @@
     <nav class="fixed w-full z- border-b border-white/5 px-6 py-5" style="background-color: var(--nav-bg); backdrop-filter: blur(15px);">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
-                <div class="w-11 h-11 bg-emerald-900 rounded-full flex items-center justify-center border-2 border-gold-brand/40 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <div class="w-11 h-11 bg-emerald-900 rounded-full flex items-center justify-center border-2 border-gold-brand/40">
                     <span class="text-gold italic serif font-bold text-xl">E&G</span>
                 </div>
                 <div class="flex flex-col">
@@ -106,7 +151,7 @@
         <button onclick="showPage('contact'); toggleMobileMenu()" class="text-gold border-t border-white/10 pt-10 text-2xl">Request Quote</button>
     </div>
 
-    <div class="pt-36 pb-20 min-h-screen">
+    <div class="pt-36 pb-10 min-h-screen">
         
         <main id="home" class="page-content active">
             <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
@@ -127,27 +172,76 @@
         </main>
 
         <main id="services" class="page-content">
-            <div class="max-w-7xl mx-auto px-6 py-12">
-                <div class="text-center mb-20 space-y-4">
-                    <h2 class="text-5xl font-bold serif italic">The E&G Standard</h2>
-                    <p class="text-slate-500 uppercase tracking-[0.3em] text-xs font-bold">Bespoke Cleaning Solutions</p>
-                </div>
+            <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+                <h2 class="text-5xl font-bold serif italic mb-4">The E&G Standard</h2>
+                <p class="text-slate-500 uppercase tracking-[0.3em] text-xs font-bold mb-16">Hover or Tap cards for details</p>
                 <div class="grid md:grid-cols-3 gap-10">
-                    <div class="glass-card p-10 rounded-[3rem] transition-all duration-500">
-                        <h3 class="text-2xl font-bold mb-4 tracking-tighter uppercase">The Routine</h3>
-                        <p class="text-sm text-slate-400 mb-10 leading-relaxed">Weekly maintenance focusing on high-touch zones and thorough sanitization.</p>
-                        <p class="text-4xl font-black text-gold">$150<span class="text-xs opacity-40 font-normal ml-2">EST.</span></p>
+                    <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
+                        <div class="card-inner">
+                            <div class="card-front glass-card">
+                                <div>
+                                    <div class="w-14 h-14 bg-emerald-900/30 rounded-2xl flex items-center justify-center text-3xl mb-8 border border-emerald-500/20">🧼</div>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter">The Routine</h3>
+                                    <p class="text-sm text-slate-400 leading-relaxed text-left">Weekly maintenance for the high-end lifestyle.</p>
+                                </div>
+                                <p class="text-4xl font-black text-gold text-left">$150<span class="text-xs opacity-40 font-normal ml-2 text-white">EST.</span></p>
+                            </div>
+                            <div class="card-back">
+                                <div>
+                                    <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">What's Included:</h4>
+                                    <div class="list-item"><span>✓</span> Dusting & Polishing</div>
+                                    <div class="list-item"><span>✓</span> Full Floor Sanitization</div>
+                                    <div class="list-item"><span>✓</span> Kitchen Exterior Detail</div>
+                                    <div class="list-item"><span>✓</span> Luxury Bed Making</div>
+                                    <div class="list-item"><span>✓</span> Trash Removal</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="bg-gradient-to-b from-emerald-900/40 to-black p-10 rounded-[3rem] shadow-2xl border-2 border-gold-brand md:-translate-y-6 relative overflow-hidden">
-                        <div class="absolute top-6 right-8 bg-gold-brand text-black text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">Signature</div>
-                        <h3 class="text-2xl font-bold mb-4 tracking-tighter uppercase text-gold">The Restoration</h3>
-                        <p class="text-sm text-emerald-100/60 mb-10 leading-relaxed">Our deepest scrub. Molecular-level cleaning for every corner and hidden surface.</p>
-                        <p class="text-4xl font-black text-gold">$300<span class="text-xs opacity-40 font-normal ml-2">EST.</span></p>
+                    <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
+                        <div class="card-inner">
+                            <div class="card-front bg-gradient-to-b from-emerald-900/40 to-black border-2 border-gold-brand">
+                                <div>
+                                    <div class="absolute top-8 right-10 bg-gold-brand text-black text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">Signature</div>
+                                    <div class="w-14 h-14 bg-gold-brand rounded-2xl flex items-center justify-center text-3xl mb-8 text-black shadow-[0_0_25px_rgba(251,191,36,0.4)]">💎</div>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-gold text-left">The Restoration</h3>
+                                    <p class="text-sm text-emerald-100/60 leading-relaxed text-left">A molecular-level deep clean of your entire estate.</p>
+                                </div>
+                                <p class="text-4xl font-black text-gold text-left">$300<span class="text-xs opacity-40 font-normal ml-2 text-white">EST.</span></p>
+                            </div>
+                            <div class="card-back shadow-[0_0_50px_rgba(251,191,36,0.15)]">
+                                <div>
+                                    <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">The Restoration List:</h4>
+                                    <div class="list-item"><span>✓</span> Baseboard Restoration</div>
+                                    <div class="list-item"><span>✓</span> Inside All Appliances</div>
+                                    <div class="list-item"><span>✓</span> Vent & Grille Vacuuming</div>
+                                    <div class="list-item"><span>✓</span> Interior Window Detail</div>
+                                    <div class="list-item"><span>✓</span> Cabinet Deep Scrub</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="glass-card p-10 rounded-[3rem]">
-                        <h3 class="text-2xl font-bold mb-4 tracking-tighter uppercase">The Move</h3>
-                        <p class="text-sm text-slate-400 mb-10 leading-relaxed">Ensuring your security deposit is safe or your new home is perfectly sterilized.</p>
-                        <p class="text-4xl font-black text-gold">QUOTE</p>
+                    <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
+                        <div class="card-inner">
+                            <div class="card-front glass-card">
+                                <div>
+                                    <div class="w-14 h-14 bg-emerald-900/30 rounded-2xl flex items-center justify-center text-3xl mb-8 border border-emerald-500/20">🔑</div>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-left">The Move</h3>
+                                    <p class="text-sm text-slate-400 leading-relaxed text-left">Transitioning in or out with absolute perfection.</p>
+                                </div>
+                                <p class="text-4xl font-black text-gold text-left">QUOTE</p>
+                            </div>
+                            <div class="card-back">
+                                <div>
+                                    <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">Turn-Key Details:</h4>
+                                    <div class="list-item"><span>✓</span> Sanitized for New Entry</div>
+                                    <div class="list-item"><span>✓</span> Closet & Drawer Detail</div>
+                                    <div class="list-item"><span>✓</span> Heavy De-greasing</div>
+                                    <div class="list-item"><span>✓</span> Garage Sweep & Clean</div>
+                                    <div class="list-item"><span>✓</span> Full Wall Spot-Clean</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,7 +250,7 @@
         <main id="about" class="page-content">
             <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-20 items-center">
                 <div class="w-full md:w-1/2 relative">
-                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1000" alt="Professional Cleaners" class="relative rounded-[3rem] border border-white/10 shadow-2xl object-cover aspect-square">
+                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1000" alt="Professional Cleaners" class="relative rounded-[3.5rem] border border-white/10 shadow-2xl object-cover aspect-square">
                 </div>
                 <div class="w-full md:w-1/2 space-y-8">
                     <h2 class="text-5xl font-bold serif italic">More than just a clean.</h2>
@@ -175,17 +269,14 @@
                             <input type="text" placeholder="Your Name" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
                             <input type="email" placeholder="Email Address" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
                         </div>
-                        
                         <div class="space-y-4">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-gold">Select Your Service</label>
                             <select class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white cursor-pointer">
                                 <option value="routine">The Routine Cleaning</option>
                                 <option value="restoration">The Restoration (Deep Clean)</option>
                                 <option value="move">Move In / Move Out</option>
-                                <option value="custom">Custom Service Request</option>
                             </select>
                         </div>
-
                         <button type="button" onclick="alert('Submission received!')" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-[0.3em] shadow-2xl">Send Request</button>
                     </form>
                 </div>
@@ -193,8 +284,11 @@
         </main>
     </div>
 
-    <footer class="py-20 text-center border-t border-white/5 opacity-40">
-        <p class="text-[9px] font-black tracking-[0.5em] uppercase">© 2026 E&G CLEANING SERVICES • Elite Standards</p>
+    <footer class="py-16 text-center border-t border-white/5 space-y-4">
+        <p class="text-[9px] font-black tracking-[0.5em] uppercase opacity-40">© 2026 E&G CLEANING SERVICES • Elite Standards</p>
+        <p class="text-[7px] font-medium tracking-[0.3em] uppercase opacity-20 hover:opacity-60 transition-opacity duration-500 cursor-default">
+            Experience Crafted by <span class="text-gold">JustCallMeSilent</span>
+        </p>
     </footer>
 
     <script>
