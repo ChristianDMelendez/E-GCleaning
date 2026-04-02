@@ -14,7 +14,7 @@
             --text-main: #f8fafc;
             --emerald-brand: #10b981; 
             --gold-brand: #fbbf24;    
-            --nav-bg: rgba(10, 10, 10, 0.85);
+            --nav-bg: rgba(10, 10, 10, 0.95);
             --border-color: rgba(255, 255, 255, 0.1);
         }
 
@@ -46,89 +46,47 @@
             transition: all 0.3s ease;
             color: #000 !important;
         }
-        .btn-gold:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 12px 24px -8px rgba(251, 191, 36, 0.5); 
-        }
-
-        .glass-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-        }
 
         /* --- 3D FLIP CARD LOGIC --- */
-        .card-container {
-            perspective: 1000px;
-            height: 480px;
-        }
-
+        .card-container { perspective: 1000px; height: 480px; }
         .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
+            position: relative; width: 100%; height: 100%;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-            cursor: pointer;
+            transform-style: preserve-3d; cursor: pointer;
         }
-
-        .card-container:hover .card-inner, .card-inner.flipped {
-            transform: rotateY(180deg);
-        }
-
+        .card-container:hover .card-inner, .card-inner.flipped { transform: rotateY(180deg); }
         .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border-radius: 3.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 3rem;
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border-radius: 3.5rem; display: flex; flex-direction: column;
+            justify-content: space-between; padding: 3rem;
         }
-
         .card-back {
             background: linear-gradient(145deg, #064e3b, #000);
-            color: white;
-            transform: rotateY(180deg);
-            border: 2px solid var(--gold-brand);
+            transform: rotateY(180deg); border: 2px solid var(--gold-brand);
         }
 
-        .list-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-            color: #cbd5e1;
-            text-align: left;
-        }
-        
-        .list-item span { color: var(--gold-brand); font-weight: bold; }
-
-        /* FIXED MOBILE MENU STYLING */
+        /* FIXED MOBILE MENU TRANSITION */
         #mobile-menu {
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateX(100%);
-            background-color: rgba(5, 5, 5, 0.98); 
-            backdrop-filter: blur(25px); 
-            -webkit-backdrop-filter: blur(25px);
+            /* Using a solid hex to ensure NO transparency */
+            background-color: #050505; 
+            z-index: 100;
         }
-        #mobile-menu.open { 
-            transform: translateX(0); 
-        }
-
-        select option { background-color: #1a1a1a; color: white; }
+        #mobile-menu.open { transform: translateX(0); }
 
         .nav-link { position: relative; opacity: 0.7; transition: opacity 0.3s ease; }
         .nav-link.active { opacity: 1; color: var(--gold-brand); }
+        
+        .list-item { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; margin-bottom: 12px; color: #cbd5e1; text-align: left; }
+        .list-item span { color: var(--gold-brand); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <nav class="fixed w-full z- border-b border-white/5 px-6 py-5" style="background-color: var(--nav-bg); backdrop-filter: blur(15px);">
+    <!-- Nav Z-index set to 80 to stay below the full-screen menu -->
+    <nav class="fixed w-full z-[80] border-b border-white/5 px-6 py-5" style="background-color: var(--nav-bg); backdrop-filter: blur(15px);">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
                 <div class="w-11 h-11 bg-emerald-900 rounded-full flex items-center justify-center border-2 border-gold-brand/40">
@@ -151,12 +109,13 @@
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 z- text-white p-12 flex flex-col justify-center gap-10 text-4xl font-extrabold md:hidden">
+    <!-- MOBILE MENU: Now with highest Z-index and solid background -->
+    <div id="mobile-menu" class="fixed inset-0 flex flex-col justify-center px-12 gap-10 text-4xl font-extrabold md:hidden">
         <button onclick="toggleMobileMenu()" class="absolute top-8 right-8 text-6xl text-gold font-light">&times;</button>
         
-        <button onclick="showPage('home'); toggleMobileMenu()" class="text-left">Home</button>
-        <button onclick="showPage('services'); toggleMobileMenu()" class="text-left">Services</button>
-        <button onclick="showPage('about'); toggleMobileMenu()" class="text-left">Our Family</button>
+        <button onclick="showPage('home'); toggleMobileMenu()" class="text-left hover:text-gold transition-colors">Home</button>
+        <button onclick="showPage('services'); toggleMobileMenu()" class="text-left hover:text-gold transition-colors">Services</button>
+        <button onclick="showPage('about'); toggleMobileMenu()" class="text-left hover:text-gold transition-colors">Our Family</button>
         
         <div class="h-[1px] bg-white/10 w-full my-4"></div>
         
@@ -170,7 +129,6 @@
     </div>
 
     <div class="pt-36 pb-10 min-h-screen">
-        
         <main id="home" class="page-content active">
             <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
                 <div class="space-y-10">
@@ -179,141 +137,111 @@
                         <span class="text-[10px] font-bold uppercase tracking-widest">Premium Care for Modern Homes</span>
                     </div>
                     <h1 class="text-7xl md:text-8xl font-extrabold leading-[0.85] tracking-tighter">Luxury is a <br><span class="serif italic font-normal text-gold">clean home.</span></h1>
-                    <p class="text-xl text-slate-400 leading-relaxed max-w-md">E&G Cleaning Services provides the premier choice for high-end residential detailing. We restore your sanctuary with meticulous care.</p>
+                    <p class="text-xl text-slate-400 leading-relaxed max-w-md">E&G Cleaning Services provides the premier choice for high-end residential detailing.</p>
                     <button onclick="showPage('contact')" class="btn-gold px-12 py-5 rounded-2xl font-black text-lg uppercase tracking-widest">Start Your Quote</button>
                 </div>
-                <div class="relative group">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-gold-brand rounded-[4rem] blur opacity-20 transition duration-1000"></div>
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" alt="Luxury Living Room" class="relative border border-white/5 rounded-[3.5rem] shadow-2xl w-full object-cover aspect-[4/5]">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" class="rounded-[3.5rem] border border-white/5 shadow-2xl w-full object-cover aspect-[4/5]">
                 </div>
             </section>
         </main>
 
         <main id="services" class="page-content">
             <div class="max-w-7xl mx-auto px-6 py-12 text-center">
-                <h2 class="text-5xl font-bold serif italic mb-4">The E&G Standard</h2>
-                <p class="text-slate-500 uppercase tracking-[0.3em] text-xs font-bold mb-16">Hover or Tap cards for details</p>
+                <h2 class="text-5xl font-bold serif italic mb-16">The E&G Standard</h2>
                 <div class="grid md:grid-cols-3 gap-10">
-                    
+                    <!-- Standard Card -->
                     <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
                         <div class="card-inner">
-                            <div class="card-front glass-card">
-                                <div>
-                                    <div class="w-14 h-14 bg-emerald-900/30 rounded-2xl flex items-center justify-center text-3xl mb-8 border border-emerald-500/20">🧼</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-left">The Routine</h3>
-                                    <p class="text-sm text-slate-400 leading-relaxed text-left">Weekly maintenance for the high-end lifestyle.</p>
+                            <div class="card-front bg-zinc-900/50 border border-white/10">
+                                <div class="text-left">
+                                    <div class="text-3xl mb-6">🧼</div>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter">The Routine</h3>
+                                    <p class="text-sm text-slate-400">Weekly maintenance for the high-end lifestyle.</p>
                                 </div>
-                                <p class="text-4xl font-black text-gold text-left">$150<span class="text-xs opacity-40 font-normal ml-2 text-white">EST.</span></p>
+                                <p class="text-4xl font-black text-gold text-left">$150<span class="text-xs opacity-40 ml-2 text-white">EST.</span></p>
                             </div>
-                            <div class="card-back">
-                                <div>
-                                    <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">What's Included:</h4>
-                                    <div class="list-item"><span>✓</span> Dusting & Polishing</div>
-                                    <div class="list-item"><span>✓</span> Full Floor Sanitization</div>
-                                    <div class="list-item"><span>✓</span> Kitchen Exterior Detail</div>
-                                    <div class="list-item"><span>✓</span> Luxury Bed Making</div>
-                                    <div class="list-item"><span>✓</span> Trash Removal</div>
-                                </div>
+                            <div class="card-back text-left">
+                                <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">What's Included:</h4>
+                                <div class="list-item"><span>✓</span> Dusting & Polishing</div>
+                                <div class="list-item"><span>✓</span> Floor Sanitization</div>
+                                <div class="list-item"><span>✓</span> Kitchen Detail</div>
+                                <div class="list-item"><span>✓</span> Luxury Bed Making</div>
                             </div>
                         </div>
                     </div>
-
+                    <!-- Signature Card -->
                     <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
                         <div class="card-inner">
-                            <div class="card-front bg-gradient-to-b from-emerald-900/40 to-black border-2 border-gold-brand">
-                                <div>
-                                    <div class="absolute top-8 right-10 bg-gold-brand text-black text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">Signature</div>
-                                    <div class="w-14 h-14 bg-gold-brand rounded-2xl flex items-center justify-center text-3xl mb-8 text-black shadow-[0_0_25px_rgba(251,191,36,0.4)]">💎</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-gold text-left">The Restoration</h3>
-                                    <p class="text-sm text-emerald-100/60 leading-relaxed text-left">A molecular-level deep clean of your entire estate.</p>
+                            <div class="card-front border-2 border-gold-brand bg-black">
+                                <div class="text-left">
+                                    <div class="text-3xl mb-6">💎</div>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-gold">The Restoration</h3>
+                                    <p class="text-sm text-emerald-100/60">A molecular-level deep clean.</p>
                                 </div>
-                                <p class="text-4xl font-black text-gold text-left">$300<span class="text-xs opacity-40 font-normal ml-2 text-white">EST.</span></p>
+                                <p class="text-4xl font-black text-gold text-left">$300<span class="text-xs opacity-40 ml-2 text-white">EST.</span></p>
                             </div>
-                            <div class="card-back shadow-[0_0_50px_rgba(251,191,36,0.15)]">
-                                <div>
-                                    <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">The Restoration List:</h4>
-                                    <div class="list-item"><span>✓</span> Baseboard Restoration</div>
-                                    <div class="list-item"><span>✓</span> Inside All Appliances</div>
-                                    <div class="list-item"><span>✓</span> Vent & Grille Vacuuming</div>
-                                    <div class="list-item"><span>✓</span> Interior Window Detail</div>
-                                    <div class="list-item"><span>✓</span> Cabinet Deep Scrub</div>
-                                </div>
+                            <div class="card-back text-left">
+                                <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">Deep Clean List:</h4>
+                                <div class="list-item"><span>✓</span> Baseboard Restoration</div>
+                                <div class="list-item"><span>✓</span> Inside All Appliances</div>
+                                <div class="list-item"><span>✓</span> Vent Vacuuming</div>
+                                <div class="list-item"><span>✓</span> Cabinet Deep Scrub</div>
                             </div>
                         </div>
                     </div>
-
+                    <!-- Move Card -->
                     <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
                         <div class="card-inner">
-                            <div class="card-front glass-card">
-                                <div>
-                                    <div class="w-14 h-14 bg-emerald-900/30 rounded-2xl flex items-center justify-center text-3xl mb-8 border border-emerald-500/20">🔑</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-left">The Move</h3>
-                                    <p class="text-sm text-slate-400 leading-relaxed text-left">Transitioning in or out with absolute perfection.</p>
+                            <div class="card-front bg-zinc-900/50 border border-white/10">
+                                <div class="text-left">
+                                    <div class="text-3xl mb-6">🔑</div>
+                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter">The Move</h3>
+                                    <p class="text-sm text-slate-400">Transitioning with absolute perfection.</p>
                                 </div>
                                 <p class="text-4xl font-black text-gold text-left">QUOTE</p>
                             </div>
-                            <div class="card-back">
-                                <div>
-                                    <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">Turn-Key Details:</h4>
-                                    <div class="list-item"><span>✓</span> Sanitized for New Entry</div>
-                                    <div class="list-item"><span>✓</span> Closet & Drawer Detail</div>
-                                    <div class="list-item"><span>✓</span> Heavy De-greasing</div>
-                                    <div class="list-item"><span>✓</span> Garage Sweep & Clean</div>
-                                    <div class="list-item"><span>✓</span> Deposit-Back Guarantee</div>
-                                </div>
+                            <div class="card-back text-left">
+                                <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">Move Details:</h4>
+                                <div class="list-item"><span>✓</span> Sanitized for Entry</div>
+                                <div class="list-item"><span>✓</span> Closet/Drawer Detail</div>
+                                <div class="list-item"><span>✓</span> Garage Sweep</div>
+                                <div class="list-item"><span>✓</span> Wall Spot-Clean</div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </main>
 
         <main id="about" class="page-content">
             <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-20 items-center">
-                <div class="w-full md:w-1/2 relative">
-                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1000" alt="Professional Cleaners" class="relative rounded-[3.5rem] border border-white/10 shadow-2xl object-cover aspect-square">
+                <div class="w-full md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1000" class="rounded-[3.5rem] border border-white/10 shadow-2xl">
                 </div>
                 <div class="w-full md:w-1/2 space-y-8">
                     <h2 class="text-5xl font-bold serif italic">More than just a clean.</h2>
-                    <p class="text-lg text-slate-400 leading-relaxed italic border-l-4 border-gold-brand pl-8 py-2">"We founded E&G because we believe a home is a sanctuary that deserves respect."</p>
-                    <p class="text-lg text-slate-400 leading-relaxed">As a local family business, our reputation is built on trust and a relentless obsession with detail. When we leave, your home feels brand new.</p>
+                    <p class="text-lg text-slate-400 leading-relaxed italic border-l-4 border-gold-brand pl-8">"We believe a home is a sanctuary that deserves respect."</p>
+                    <p class="text-lg text-slate-400 leading-relaxed">As a local family business, our reputation is built on trust and a relentless obsession with detail.</p>
                 </div>
             </div>
         </main>
 
         <main id="contact" class="page-content">
             <div class="max-w-4xl mx-auto px-6">
-                <div class="glass-card rounded-[4rem] p-16 relative overflow-hidden">
+                <div class="bg-zinc-900/80 rounded-[4rem] p-12 border border-white/5">
                     <h2 class="text-4xl font-bold serif italic text-center mb-12">Start Your Transformation</h2>
-                    
-                    <form action="https://formspree.io/f/YOUR_FORMSPREE_ID_HERE" method="POST" class="space-y-10">
+                    <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-10">
                         <div class="grid md:grid-cols-2 gap-10">
-                            <div>
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-gold ml-2">Full Name</label>
-                                <input type="text" name="name" required placeholder="Your Name" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-gold ml-2">Email Address</label>
-                                <input type="email" name="_replyto" required placeholder="Email Address" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
-                            </div>
+                            <input type="text" name="name" required placeholder="Name" class="bg-transparent border-b border-white/10 py-4 outline-none focus:border-gold-brand text-white">
+                            <input type="email" name="email" required placeholder="Email" class="bg-transparent border-b border-white/10 py-4 outline-none focus:border-gold-brand text-white">
                         </div>
-                        
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-gold">Select Your Service</label>
-                            <select name="service" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white cursor-pointer">
-                                <option value="routine">The Routine Cleaning</option>
-                                <option value="restoration">The Restoration (Deep Clean)</option>
-                                <option value="move">Move In / Move Out</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-gold ml-2">Notes</label>
-                            <textarea name="message" placeholder="Tell us about your space..." rows="3" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white resize-none"></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-[0.3em] shadow-2xl">Send Request</button>
+                        <select name="service" class="w-full bg-transparent border-b border-white/10 py-4 outline-none text-white cursor-pointer">
+                            <option value="routine">Routine Cleaning</option>
+                            <option value="restoration">Restoration Clean</option>
+                            <option value="move">Move In/Out</option>
+                        </select>
+                        <button type="submit" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-widest shadow-2xl">Send Request</button>
                     </form>
                 </div>
             </div>
@@ -321,8 +249,8 @@
     </div>
 
     <footer class="py-16 text-center border-t border-white/5 space-y-4">
-        <p class="text-[9px] font-black tracking-[0.5em] uppercase opacity-40">© 2026 E&G CLEANING SERVICES • Elite Standards</p>
-        <p class="text-[7px] font-medium tracking-[0.3em] uppercase opacity-20 hover:opacity-60 transition-opacity duration-500 cursor-default">
+        <p class="text-[9px] font-black tracking-[0.5em] uppercase opacity-40">© 2026 E&G CLEANING SERVICES</p>
+        <p class="text-[7px] font-medium tracking-[0.3em] uppercase opacity-20 hover:opacity-60 transition-opacity cursor-default">
             Experience Crafted by <span class="text-gold">JustCallMeSilent</span>
         </p>
     </footer>
