@@ -57,6 +57,12 @@
             border: 1px solid var(--border-color);
         }
 
+        /* FIXED SELECTOR STYLING */
+        select option {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
         #mobile-menu {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateX(100%);
@@ -72,7 +78,7 @@
     <nav class="fixed w-full z- border-b border-white/5 px-6 py-5" style="background-color: var(--nav-bg); backdrop-filter: blur(15px);">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
-                <div class="w-11 h-11 bg-emerald-900 rounded-full flex items-center justify-center border-2 border-gold-brand/40">
+                <div class="w-11 h-11 bg-emerald-900 rounded-full flex items-center justify-center border-2 border-gold-brand/40 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                     <span class="text-gold italic serif font-bold text-xl">E&G</span>
                 </div>
                 <div class="flex flex-col">
@@ -105,9 +111,9 @@
         <main id="home" class="page-content active">
             <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
                 <div class="space-y-10">
-                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-emerald-900/30 border border-emerald-500/30 rounded-full">
+                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-emerald-900/30 border border-emerald-500/30 rounded-full text-emerald-400">
                         <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                        <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Premium Care for Modern Homes</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest">Premium Care for Modern Homes</span>
                     </div>
                     <h1 class="text-7xl md:text-8xl font-extrabold leading-[0.85] tracking-tighter">Luxury is a <br><span class="serif italic font-normal text-gold">clean home.</span></h1>
                     <p class="text-xl text-slate-400 leading-relaxed max-w-md">E&G Cleaning Services provides the premier choice for high-end residential detailing. We restore your sanctuary with meticulous care.</p>
@@ -115,7 +121,7 @@
                 </div>
                 <div class="relative group">
                     <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-gold-brand rounded-[4rem] blur opacity-20 transition duration-1000"></div>
-                    <img src="http://googleusercontent.com/image_collection/image_retrieval/2941405457250106657_0" alt="Luxury Interior" class="relative border border-white/5 rounded-[3.5rem] shadow-2xl w-full object-cover aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" alt="Luxury Living Room" class="relative border border-white/5 rounded-[3.5rem] shadow-2xl w-full object-cover aspect-[4/5]">
                 </div>
             </section>
         </main>
@@ -150,7 +156,7 @@
         <main id="about" class="page-content">
             <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-20 items-center">
                 <div class="w-full md:w-1/2 relative">
-                    <img src="http://googleusercontent.com/image_collection/image_retrieval/17309292480353488243_0" alt="E&G Team" class="relative rounded-[3rem] border border-white/10 shadow-2xl object-cover aspect-square">
+                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1000" alt="Professional Cleaners" class="relative rounded-[3rem] border border-white/10 shadow-2xl object-cover aspect-square">
                 </div>
                 <div class="w-full md:w-1/2 space-y-8">
                     <h2 class="text-5xl font-bold serif italic">More than just a clean.</h2>
@@ -166,9 +172,20 @@
                     <h2 class="text-4xl font-bold serif italic text-center mb-12">Start Your Transformation</h2>
                     <form class="space-y-10">
                         <div class="grid md:grid-cols-2 gap-10">
-                            <input type="text" placeholder="Your Name" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg">
-                            <input type="email" placeholder="Email Address" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg">
+                            <input type="text" placeholder="Your Name" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
+                            <input type="email" placeholder="Email Address" class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white">
                         </div>
+                        
+                        <div class="space-y-4">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-gold">Select Your Service</label>
+                            <select class="w-full bg-transparent border-b-2 border-white/10 py-4 outline-none focus:border-gold-brand text-lg text-white cursor-pointer">
+                                <option value="routine">The Routine Cleaning</option>
+                                <option value="restoration">The Restoration (Deep Clean)</option>
+                                <option value="move">Move In / Move Out</option>
+                                <option value="custom">Custom Service Request</option>
+                            </select>
+                        </div>
+
                         <button type="button" onclick="alert('Submission received!')" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-[0.3em] shadow-2xl">Send Request</button>
                     </form>
                 </div>
