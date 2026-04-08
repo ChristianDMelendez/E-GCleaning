@@ -1,272 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E&G Cleaning Services | Elite Home Care</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-main: #0a0a0a;
-            --bg-card: rgba(20, 20, 20, 0.9);
-            --text-main: #f8fafc;
-            --emerald-brand: #10b981; 
-            --gold-brand: #fbbf24;    
-            --nav-bg: rgba(10, 10, 10, 0.95);
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E&G Cleaning Services | Elite Home Care</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 
-        body { 
-            font-family: 'Outfit', sans-serif; 
-            background-color: var(--bg-main); 
-            color: var(--text-main);
-            margin: 0;
-            overflow-x: hidden;
-        }
-        
-        .serif { font-family: 'Playfair Display', serif; }
-        .text-gold { color: var(--gold-brand); }
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
-        .page-content {
-            display: none;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .page-content.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
+<style>
+:root {
+    --bg-main:#050505;
+    --bg-surface:#0f0f0f;
+    --text-main:#f8fafc;
+    --emerald:#059669;
+    --gold:#d4af37;
+}
 
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold-brand) 0%, #b8860b 100%);
-            transition: all 0.3s ease;
-            color: #000 !important;
-        }
+body{
+    font-family:'Outfit',sans-serif;
+    background:var(--bg-main);
+    color:white;
+    margin:0;
+    overflow-x:hidden;
+}
 
-        /* --- 3D FLIP CARD LOGIC --- */
-        .card-container { perspective: 1000px; height: 480px; }
-        .card-inner {
-            position: relative; width: 100%; height: 100%;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d; cursor: pointer;
-        }
-        .card-container:hover .card-inner, .card-inner.flipped { transform: rotateY(180deg); }
-        .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; -webkit-backface-visibility: hidden;
-            border-radius: 3.5rem; display: flex; flex-direction: column;
-            justify-content: space-between; padding: 3rem;
-        }
-        .card-back {
-            background: linear-gradient(145deg, #064e3b, #000);
-            transform: rotateY(180deg); border: 2px solid var(--gold-brand);
-        }
+/* Animated background */
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at 20% 30%, rgba(5,150,105,0.08), transparent),
+    radial-gradient(circle at 80% 70%, rgba(212,175,55,0.08), transparent);
+    animation:moveBg 20s linear infinite alternate;
+    z-index:-2;
+}
+@keyframes moveBg{
+    0%{transform:translate(0,0)}
+    100%{transform:translate(-50px,-50px)}
+}
 
-        /* FIXED MOBILE MENU TRANSITION */
-        #mobile-menu {
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100%);
-            /* Using a solid hex to ensure NO transparency */
-            background-color: #050505; 
-            z-index: 100;
-        }
-        #mobile-menu.open { transform: translateX(0); }
+/* reveal */
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 1s ease;
+}
+.reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+}
 
-        .nav-link { position: relative; opacity: 0.7; transition: opacity 0.3s ease; }
-        .nav-link.active { opacity: 1; color: var(--gold-brand); }
-        
-        .list-item { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; margin-bottom: 12px; color: #cbd5e1; text-align: left; }
-        .list-item span { color: var(--gold-brand); font-weight: bold; }
-    </style>
+/* shimmer text */
+.glow-text{
+    background:linear-gradient(120deg,#fff,#fde047,#fff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-size:200%;
+    animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer{
+    0%{background-position:0%}
+    100%{background-position:200%}
+}
+
+/* cards */
+.card{
+    background:rgba(15,15,15,0.6);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:2rem;
+    padding:2rem;
+    transition:.4s;
+}
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7);
+}
+
+/* buttons */
+.btn{
+    background:linear-gradient(135deg,#fde047,#d4af37,#997a00);
+    color:black;
+    padding:14px 30px;
+    border-radius:999px;
+    font-weight:bold;
+    position:relative;
+    overflow:hidden;
+}
+.btn span{
+    position:absolute;
+    border-radius:50%;
+    transform:scale(0);
+    animation:ripple .6s linear;
+    background:rgba(255,255,255,0.4);
+}
+@keyframes ripple{
+    to{transform:scale(4);opacity:0}
+}
+
+/* particles */
+#particles{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+}
+
+/* nav */
+.nav-link{
+    opacity:.6;
+    transition:.3s;
+}
+.nav-link:hover{
+    opacity:1;
+    transform:translateY(-2px);
+}
+
+/* pages */
+.page{
+    display:none;
+}
+.page.active{
+    display:block;
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Nav Z-index set to 80 to stay below the full-screen menu -->
-    <nav class="fixed w-full z-[80] border-b border-white/5 px-6 py-5" style="background-color: var(--nav-bg); backdrop-filter: blur(15px);">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
-                <div class="w-11 h-11 bg-emerald-900 rounded-full flex items-center justify-center border-2 border-gold-brand/40">
-                    <span class="text-gold italic serif font-bold text-xl">E&G</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xl font-extrabold tracking-tighter uppercase leading-none">E&G <span class="text-gold">Cleaning</span></span>
-                    <span class="text-[9px] tracking-[0.3em] text-emerald-400 uppercase font-bold">The Gold Standard</span>
-                </div>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-10 font-bold text-[11px] uppercase tracking-[0.2em]">
-                <button onclick="showPage('home')" class="nav-link active" id="nav-home">Home</button>
-                <button onclick="showPage('services')" class="nav-link" id="nav-services">Services</button>
-                <button onclick="showPage('about')" class="nav-link" id="nav-about">About Us</button>
-                <button onclick="showPage('contact')" class="btn-gold px-8 py-3 rounded-full shadow-lg ml-4">Book Now</button>
-            </div>
+<canvas id="particles"></canvas>
 
-            <button onclick="toggleMobileMenu()" class="md:hidden text-3xl text-gold">☰</button>
-        </div>
-    </nav>
+<!-- NAV -->
+<nav class="fixed w-full flex justify-between px-8 py-4 bg-black/80 backdrop-blur z-50">
+<div onclick="showPage('home')" class="cursor-pointer font-bold">E&G</div>
+<div class="flex gap-6 text-sm uppercase">
+<button onclick="showPage('home')" class="nav-link">Home</button>
+<button onclick="showPage('services')" class="nav-link">Services</button>
+<button onclick="showPage('contact')" class="btn">Book</button>
+</div>
+</nav>
 
-    <!-- MOBILE MENU: Now with highest Z-index and solid background -->
-    <div id="mobile-menu" class="fixed inset-0 flex flex-col justify-center px-12 gap-10 text-4xl font-extrabold md:hidden">
-        <button onclick="toggleMobileMenu()" class="absolute top-8 right-8 text-6xl text-gold font-light">&times;</button>
-        
-        <button onclick="showPage('home'); toggleMobileMenu()" class="text-left hover:text-gold transition-colors">Home</button>
-        <button onclick="showPage('services'); toggleMobileMenu()" class="text-left hover:text-gold transition-colors">Services</button>
-        <button onclick="showPage('about'); toggleMobileMenu()" class="text-left hover:text-gold transition-colors">Our Family</button>
-        
-        <div class="h-[1px] bg-white/10 w-full my-4"></div>
-        
-        <button onclick="showPage('contact'); toggleMobileMenu()" class="text-gold text-2xl uppercase tracking-[0.2em] text-left">
-            Request Quote —
-        </button>
+<div class="pt-32">
 
-        <div class="absolute bottom-12 left-12 opacity-20">
-            <p class="serif italic text-xl">E&G Cleaning</p>
-        </div>
-    </div>
+<!-- HOME -->
+<section id="home" class="page active reveal text-center px-6">
+<h1 class="text-6xl md:text-7xl">
+Luxury is a <span class="glow-text italic">pristine</span> home.
+</h1>
+<p class="mt-6 text-zinc-400 max-w-xl mx-auto">
+Premium residential cleaning with obsessive attention to detail.
+</p>
+<button onclick="showPage('contact')" class="btn mt-8">Get Quote</button>
+</section>
 
-    <div class="pt-36 pb-10 min-h-screen">
-        <main id="home" class="page-content active">
-            <section class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-                <div class="space-y-10">
-                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-emerald-900/30 border border-emerald-500/30 rounded-full text-emerald-400">
-                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest">Premium Care for Modern Homes</span>
-                    </div>
-                    <h1 class="text-7xl md:text-8xl font-extrabold leading-[0.85] tracking-tighter">Luxury is a <br><span class="serif italic font-normal text-gold">clean home.</span></h1>
-                    <p class="text-xl text-slate-400 leading-relaxed max-w-md">E&G Cleaning Services provides the premier choice for high-end residential detailing.</p>
-                    <button onclick="showPage('contact')" class="btn-gold px-12 py-5 rounded-2xl font-black text-lg uppercase tracking-widest">Start Your Quote</button>
-                </div>
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" class="rounded-[3.5rem] border border-white/5 shadow-2xl w-full object-cover aspect-[4/5]">
-                </div>
-            </section>
-        </main>
+<!-- SERVICES -->
+<section id="services" class="page reveal px-6 mt-20">
+<div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
-        <main id="services" class="page-content">
-            <div class="max-w-7xl mx-auto px-6 py-12 text-center">
-                <h2 class="text-5xl font-bold serif italic mb-16">The E&G Standard</h2>
-                <div class="grid md:grid-cols-3 gap-10">
-                    <!-- Standard Card -->
-                    <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
-                        <div class="card-inner">
-                            <div class="card-front bg-zinc-900/50 border border-white/10">
-                                <div class="text-left">
-                                    <div class="text-3xl mb-6">🧼</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter">The Routine</h3>
-                                    <p class="text-sm text-slate-400">Weekly maintenance for the high-end lifestyle.</p>
-                                </div>
-                                <p class="text-4xl font-black text-gold text-left">$150<span class="text-xs opacity-40 ml-2 text-white">EST.</span></p>
-                            </div>
-                            <div class="card-back text-left">
-                                <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">What's Included:</h4>
-                                <div class="list-item"><span>✓</span> Dusting & Polishing</div>
-                                <div class="list-item"><span>✓</span> Floor Sanitization</div>
-                                <div class="list-item"><span>✓</span> Kitchen Detail</div>
-                                <div class="list-item"><span>✓</span> Luxury Bed Making</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Signature Card -->
-                    <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
-                        <div class="card-inner">
-                            <div class="card-front border-2 border-gold-brand bg-black">
-                                <div class="text-left">
-                                    <div class="text-3xl mb-6">💎</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter text-gold">The Restoration</h3>
-                                    <p class="text-sm text-emerald-100/60">A molecular-level deep clean.</p>
-                                </div>
-                                <p class="text-4xl font-black text-gold text-left">$300<span class="text-xs opacity-40 ml-2 text-white">EST.</span></p>
-                            </div>
-                            <div class="card-back text-left">
-                                <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">Deep Clean List:</h4>
-                                <div class="list-item"><span>✓</span> Baseboard Restoration</div>
-                                <div class="list-item"><span>✓</span> Inside All Appliances</div>
-                                <div class="list-item"><span>✓</span> Vent Vacuuming</div>
-                                <div class="list-item"><span>✓</span> Cabinet Deep Scrub</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Move Card -->
-                    <div class="card-container" onclick="this.querySelector('.card-inner').classList.toggle('flipped')">
-                        <div class="card-inner">
-                            <div class="card-front bg-zinc-900/50 border border-white/10">
-                                <div class="text-left">
-                                    <div class="text-3xl mb-6">🔑</div>
-                                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tighter">The Move</h3>
-                                    <p class="text-sm text-slate-400">Transitioning with absolute perfection.</p>
-                                </div>
-                                <p class="text-4xl font-black text-gold text-left">QUOTE</p>
-                            </div>
-                            <div class="card-back text-left">
-                                <h4 class="text-gold font-bold uppercase tracking-widest text-[10px] mb-8">Move Details:</h4>
-                                <div class="list-item"><span>✓</span> Sanitized for Entry</div>
-                                <div class="list-item"><span>✓</span> Closet/Drawer Detail</div>
-                                <div class="list-item"><span>✓</span> Garage Sweep</div>
-                                <div class="list-item"><span>✓</span> Wall Spot-Clean</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+<div class="card">
+<h3 class="text-xl mb-2">Routine</h3>
+<p class="text-zinc-400">$150+</p>
+</div>
 
-        <main id="about" class="page-content">
-            <div class="max-w-5xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-20 items-center">
-                <div class="w-full md:w-1/2">
-                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=1000" class="rounded-[3.5rem] border border-white/10 shadow-2xl">
-                </div>
-                <div class="w-full md:w-1/2 space-y-8">
-                    <h2 class="text-5xl font-bold serif italic">More than just a clean.</h2>
-                    <p class="text-lg text-slate-400 leading-relaxed italic border-l-4 border-gold-brand pl-8">"We believe a home is a sanctuary that deserves respect."</p>
-                    <p class="text-lg text-slate-400 leading-relaxed">As a local family business, our reputation is built on trust and a relentless obsession with detail.</p>
-                </div>
-            </div>
-        </main>
+<div class="card">
+<h3 class="text-xl mb-2">Deep Clean</h3>
+<p class="text-zinc-400">$300+</p>
+</div>
 
-        <main id="contact" class="page-content">
-            <div class="max-w-4xl mx-auto px-6">
-                <div class="bg-zinc-900/80 rounded-[4rem] p-12 border border-white/5">
-                    <h2 class="text-4xl font-bold serif italic text-center mb-12">Start Your Transformation</h2>
-                    <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-10">
-                        <div class="grid md:grid-cols-2 gap-10">
-                            <input type="text" name="name" required placeholder="Name" class="bg-transparent border-b border-white/10 py-4 outline-none focus:border-gold-brand text-white">
-                            <input type="email" name="email" required placeholder="Email" class="bg-transparent border-b border-white/10 py-4 outline-none focus:border-gold-brand text-white">
-                        </div>
-                        <select name="service" class="w-full bg-transparent border-b border-white/10 py-4 outline-none text-white cursor-pointer">
-                            <option value="routine">Routine Cleaning</option>
-                            <option value="restoration">Restoration Clean</option>
-                            <option value="move">Move In/Out</option>
-                        </select>
-                        <button type="submit" class="btn-gold w-full py-6 rounded-3xl font-black text-xl uppercase tracking-widest shadow-2xl">Send Request</button>
-                    </form>
-                </div>
-            </div>
-        </main>
-    </div>
+<div class="card">
+<h3 class="text-xl mb-2">Move In/Out</h3>
+<p class="text-zinc-400">Custom</p>
+</div>
 
-    <footer class="py-16 text-center border-t border-white/5 space-y-4">
-        <p class="text-[9px] font-black tracking-[0.5em] uppercase opacity-40">© 2026 E&G CLEANING SERVICES</p>
-        <p class="text-[7px] font-medium tracking-[0.3em] uppercase opacity-20 hover:opacity-60 transition-opacity cursor-default">
-            Experience Crafted by <span class="text-gold">JustCallMeSilent</span>
-        </p>
-    </footer>
+</div>
+</section>
 
-    <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            const navItem = document.getElementById('nav-' + pageId);
-            if(navItem) navItem.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('open');
-        }
-    </script>
+<!-- CONTACT -->
+<section id="contact" class="page reveal text-center mt-20">
+<h2 class="text-4xl mb-6">Start Your Quote</h2>
+<input placeholder="Name" class="block mx-auto mb-4 p-3 bg-black border border-white/10">
+<input placeholder="Email" class="block mx-auto mb-4 p-3 bg-black border border-white/10">
+<button class="btn">Submit</button>
+</section>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+/* navigation */
+function showPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+window.scrollTo({top:0});
+}
+
+/* reveal */
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting) e.target.classList.add('visible');
+});
+});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* ripple */
+document.querySelectorAll('.btn').forEach(btn=>{
+btn.addEventListener('click',function(e){
+const span=document.createElement('span');
+span.style.width=span.style.height='100px';
+span.style.left=e.offsetX+'px';
+span.style.top=e.offsetY+'px';
+this.appendChild(span);
+setTimeout(()=>span.remove(),600);
+});
+});
+
+/* particles */
+const c=document.getElementById("particles");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let p=Array.from({length:40},()=>({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+r:Math.random()*2,
+dx:Math.random()*0.3,
+dy:Math.random()*0.3
+}));
+
+function anim(){
+ctx.clearRect(0,0,c.width,c.height);
+p.forEach(a=>{
+a.x+=a.dx;
+a.y+=a.dy;
+if(a.x>c.width||a.y>c.height){a.x=0;a.y=0;}
+ctx.beginPath();
+ctx.arc(a.x,a.y,a.r,0,Math.PI*2);
+ctx.fillStyle="rgba(255,255,255,0.05)";
+ctx.fill();
+});
+requestAnimationFrame(anim);
+}
+anim();
+</script>
+
 </body>
 </html>
